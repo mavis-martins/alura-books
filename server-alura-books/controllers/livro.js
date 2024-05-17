@@ -1,6 +1,7 @@
 const { 
     getTodosOsLivros,
-    getLivroPorId
+    getLivroPorId,
+    insereLivro
 } = require('../services/livro')
 
 function getLivros(req, res) {
@@ -22,7 +23,19 @@ function getLivro(req, res) {
     }
 }
 
+function postLivro(req, res) {
+    try {
+        const livroNovo = req.body
+        insereLivro(livroNovo)
+        req.status(201)
+        res.send('Livro inserido com sucesso!')
+    } catch {
+        res.status(500).send('Erro ao tentar acessar a rota de livros! 📚')
+    }
+}
+
 module.exports = {
     getLivros,
-    getLivro
+    getLivro,
+    postLivro
 }

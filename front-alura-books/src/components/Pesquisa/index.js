@@ -3,10 +3,13 @@ import styled from 'styled-components';
 import Input from '../Input';
 
 //React
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-//Mock
-import { Livros } from './dadosPesquisa';
+//Serviços
+import { getLivros } from '../../services/livro';
+import { postLivroFavorito } from '../../services/favoritos';
+
+
 
 export default function Pesquisa() {
 
@@ -51,6 +54,22 @@ export default function Pesquisa() {
     `; 
 
     const [livroPesquisado, setLivroPesquisado] = useState([]);
+    const [Livros, setLivros] = useState([]);
+
+    useEffect(() => {
+        fetchLivros()
+    }, [])
+
+    async function fetchLivros() {
+        const livrosDaApi = await getLivros()
+        setLivros(livrosDaApi)
+    }
+
+    async function insertFavoritos(id) {
+        await postLivroFavorito(id)
+
+        alert('Livro adicionado aos favoritos! 📚')
+    }
 
     function pesquisarLivro(e){
         const textoDigitado = e.target.value;
@@ -76,9 +95,8 @@ export default function Pesquisa() {
             />
             {
                 livroPesquisado.map(livro => (
-                    <Resultado>
+                    <Resultado onClick={() => insertFavoritos(livro.id)}>
                         <p>{livro.nome}</p>
-                        <img src={livro.src} alt={livro.nome}/>
                     </Resultado>
                 ))
             }

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import IconesHeader from '../IconesHeader';
 import Logo from '../Logo';
 import OpcoesHeader from '../OpcoesHeader';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
 
@@ -17,7 +18,9 @@ export default function Header() {
 
     return (
         <HeaderContainer>
-            <Logo/>
+            <Link to='/'>
+                <Logo />
+            </Link>
             <OpcoesHeader />
             <IconesHeader/>
         </HeaderContainer>
